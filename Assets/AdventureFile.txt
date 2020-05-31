@@ -1,0 +1,4 @@
+You see a person in front of you
+Here are your two choices:
+1. Shoot them
+2. Walk away
