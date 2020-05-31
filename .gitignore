@@ -1,0 +1,11 @@
+#ignore folders
+.vscode
+.vs
+obj
+Logs
+Packages
+ProjectSettings
+Temp
+Library
+
+*.meta
