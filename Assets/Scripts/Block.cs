@@ -5,24 +5,67 @@ using UnityEngine;
 public class Block : MonoBehaviour
 {
     [SerializeField] AudioClip breakSound;
+    [SerializeField] GameObject blockSparklesVFX;
+    [SerializeField] Sprite[] hitSprites;
 
     Level level;
-
+    [SerializeField] int timesHit = 0;
     private void Start()
     {
         level = FindObjectOfType<Level>();
-        level.AddBreakableBlocks();
+        if (tag == "Breakable")
+        {
+            level.AddBlocks();
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        DestroyBlock();
+        if (tag == "Breakable")
+        {
+            HandleHit();
+        }
+    }
+
+    private void HandleHit()
+    {
+        timesHit++;
+        if (timesHit == hitSprites.Length + 1)
+        {
+            DestroyBlock();
+        }
+        else
+        {
+            ShowNextHitSprite();
+        }
+    }
+
+    private void ShowNextHitSprite()
+    {
+        int spriteIndex = timesHit - 1;
+        if (hitSprites[spriteIndex] != null)
+        {
+            GetComponent<SpriteRenderer>().sprite = hitSprites[timesHit];
+        }
+        else
+        {
+            Debug.Log($"Block sprite is missing from array {gameObject.name}");
+        }
     }
 
     public void DestroyBlock()
     {
-        level.BlockDestroyed();
+        FindObjectOfType<GameSession>().AddToScore();
+        FindObjectOfType<Level>().BlockDestroyed();
         AudioSource.PlayClipAtPoint(breakSound, Camera.main.transform.position);
+
         Destroy(gameObject);
+        TriggerSparklesVFX();
+    }
+
+    private void TriggerSparklesVFX()
+    {
+        GameObject sparkles = Instantiate(blockSparklesVFX, transform.position, transform.rotation);
+        Destroy(sparkles, 2f);
     }
 }

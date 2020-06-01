@@ -12,7 +12,7 @@ public class Level : MonoBehaviour
     {
         sceneLoader = FindObjectOfType<SceneLoader>();
     }
-    public void AddBreakableBlocks()
+    public void AddBlocks()
     {
         breakableBlocks++;
     }
