@@ -11,6 +11,7 @@ public class GameSession : MonoBehaviour
     [SerializeField] int pointsPerBlock = 10;
     [SerializeField] TextMeshProUGUI scoreText;
     [SerializeField] int currentScore = 0;
+    [SerializeField] bool isAutoPlayEnabled;
 
     // Singleton
     private void Awake()
@@ -47,5 +48,10 @@ public class GameSession : MonoBehaviour
     {
         currentScore += pointsPerBlock;
         scoreText.text = currentScore.ToString();
+    }
+
+    public bool IsAutoPlayEnabled()
+    {
+        return isAutoPlayEnabled;
     }
 }
